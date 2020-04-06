@@ -7,13 +7,13 @@
 </form>
 
 <h2>Results</h2>
-<div id = "buttons-view"></div>
+<div id="buttons-view"></div>
 <ul>
-    <p>Current Movies Searched</p>
+  <p>Current Movies Searched</p>
   {{#each movies}}
-  	<li>
-  	<p><span class="label">Movie Title:</span> {{this.title}}</p>
-    <p>Cast</p>  
+  <li>
+    <p><span class="label">Movie Title:</span> {{this.title}}</p>
+    <p>Cast</p>
     <p><span class="label">First Character Role:</span> {{this.role1}}</p>
     <p><span class="label">Played By:</span> {{this.actor1}}</p>
     <br>
@@ -26,82 +26,95 @@
     <p><span class="label">Fourth Character Role:</span> {{this.role4}}</p>
     <p><span class="label">Played By:</span> {{this.actor4}}</p>
     <br>
-   
-  	</li>
+
+  </li>
   {{/each}}
 </ul>
 
 
 <script type="text/javascript">
-$("#movieSearch").on("submit", function(event){
+  $("#movieSearch").on("submit", function (event) {
     event.preventDefault();
     var movie = $("[name=movie]").val().trim()
     console.log(movie)
-    var queryURL3 = "https://api.themoviedb.org/3/search/movie?api_key=b4cf32bed876d97cc4ef65987205c624&query="+movie
+    var queryURL3 = "https://api.themoviedb.org/3/search/movie?api_key=b4cf32bed876d97cc4ef65987205c624&query=" + movie
 
-     
+
     $.ajax({
       url: queryURL3,
       method: "GET"
-    }).then(function(response) {
-        console.log(response)
-        var searchResults = []
-        searchResults.push(response.results[0].title)
-        searchResults.push(response.results[1].title)
-        searchResults.push(response.results[2].title)
-        renderButtons(searchResults);
-        
-       
-
-})
-});
-
-function renderButtons(searchResults){
-    $("#buttons-view").empty();
-    for (var i = 0; i < searchResults.length; i++) {
-
-          // Then dynamicaly generating buttons for each movie in the array.
-          // This code $("<button>") is all jQuery needs to create the start and end tag. (<button></button>)
-          var a = $("<button id='chosen'>");
-          // Adding a class
-          a.addClass("movie");
-          // Adding a data-attribute with a value of the movie at index i
-          a.attr("data-name", searchResults[i]);
-          // Providing the button's text with a value of the movie at index i
-          a.text(searchResults[i]);
-          // Adding the button to the HTML
-          $("#buttons-view").append(a);
+    }).then(function (response) {
+      console.log(response)
+      var searchResults = response.results
+        .filter((movie, index) => index < 3)
+        .map(movie => {
+          return {
+            id: movie.id,
+            img: movie.poster_path,
+            title: movie.title
+          }
         }
+        )
+      renderButtons(searchResults);
+
+
+
+
+    })
+  });
+
+  function renderButtons(searchResults) {
+    $("#buttons-view").empty();
+    searchResults.forEach(movie => {
+      const html = `<button 
+        id="${movie.id}" class="movie" 
+        data-name="${movie.title}">
+        <a href ="/${movie.title}"></a>      
+          ${movie.title}
+        </button>`
+
+      $("#buttons-view").append(html);
+
+    })
+  }
+
+  $(document).on("click", ".movie", function (event) {
+    var userPick = this.id
+    var movTitle = $(this).data("name")
+    console.log(movTitle);
+
+    var queryURL2 = "https://api.themoviedb.org/3/movie/" + userPick + "/credits?api_key=b4cf32bed876d97cc4ef65987205c624"
+    console.log(queryURL2)
+    $.ajax({
+      url: queryURL2,
+      method: "GET"
+    }).then(function (credits) {
+      var newMovie = {
+        title: movTitle,
+        role1: credits.cast[0].character,
+        role2: credits.cast[1].character,
+        role3: credits.cast[2].character,
+        role4: credits.cast[3].character,
+        actor1: credits.cast[0].name,
+        actor2: credits.cast[1].name,
+        actor3: credits.cast[2].name,
+        actor4: credits.cast[3].name,
       }
+      $.ajax("/api/movies", {
+        type: "POST",
+        data: newMovie
+      }).then(
+        function () {
+          console.log("created new Movie entry");
+          // Reload the page to get the updated list
+          //location.reload();
+        }
+      );
 
-   $("#chosen").on("click", function(event){ 
-     var userPick = $(this).data("name") 
-     var queryURL2 = "https://api.themoviedb.org/3/movie/"+userPick+"/credits?api_key=b4cf32bed876d97cc4ef65987205c624"
-  $.ajax({url: queryURL2,
-      method: "GET"}).then(function(credits) {
-      console.log(credits);
-      var role1 = credits.cast[0].character;
-      var actor1 = credits.cast[0].name;
-      console.log(role1);
-      console.log(actor1);
-      
-      var role2 = credits.cast[1].character;
-      var actor2 = credits.cast[1].name;
-      console.log(role2);
-      console.log(actor2);
 
-      var role3 = credits.cast[2].character;
-      var actor3 = credits.cast[2].name;
-      console.log(role3);
-      console.log(actor3);
 
-      var role4 = credits.cast[3].character;
-      var actor4 = credits.cast[3].name;
-      console.log(role4);
-      console.log(actor4);
-
-      })
-   })
+    })
+  })
 
 
 </script>

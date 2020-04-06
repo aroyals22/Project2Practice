@@ -38,9 +38,22 @@ app.get("/", function(req, res) {
     }
     res.render("index", { movies: data });
   });});
+
+
+  app.get("/:title",function(req, res) {
+    connection.query("SELECT * FROM movies WHERE title = ?;",
+    [req.params.title], function(err, data) {
+      if (err) {
+        return res.status(500).end();
+      }
+      res.render("recast", { movies: data});
+    });
+  
+  });
+  
   
 
-app.put("/api/movies", function(req, res){
+app.post("/api/movies", function(req, res){
   connection.query("INSERT INTO movies (title,role1,role2,role3,role4,actor1,actor2,actor3,actor4) VALUES (?,?,?,?,?,?,?,?,?)",
   [req.body.title,req.body.role1,req.body.role2,req.body.role3,req.body.role4,req.body.actor1,req.body.actor2,req.body.actor3,req.body.actor4],function(err, result){
     if (err){

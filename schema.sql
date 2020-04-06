@@ -22,3 +22,11 @@ CREATE TABLE movies (
 
 -- Insert a set of records.
 INSERT INTO movies (title, role1, role2, role3, role4, actor1, actor2, actor3, actor4) VALUES ("Batman Begins", "Bruce Wayne/Batman", "Aflred Pennyworth","Ra's al Ghul","Rachel Dawes","Christian Bale","Michael Caine","Liam Neeson", "Katie Holmes");
+
+
+CREATE TABLE actors (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(225) NOT NULL,
+)
+
+INSERT INTO actors (name) VALUES ("Tom Cruise","Brad Pitt","Julia Roberts")
