@@ -9,23 +9,26 @@
     <th>New Actor</th>
   </tr>
   <tr>
-    <td>{{this.role1}}</td>
-    <td>{{this.actor1}}</td>
+    <td>{{this.data.role1}}</td>
+    <td>{{this.data.actor1}}</td>
     <td>NEW ACTOR</td>
   </tr>
   <tr>
-    <td>{{this.role2}}</td>
-    <td>{{this.actor2}}</td>
+    <td>{{this.data.role2}}</td>
+    <td>{{this.data.actor2}}</td>
     <td>NEW ACTOR</td>
   </tr>
   <tr>
-    <td>{{this.role3}}</td>
-    <td>{{this.actor3}}</td>
+    <td>{{this.data.role3}}</td>
+    <td>{{this.data.actor3}}</td>
     <td>NEW ACTOR</td>
   </tr>
   <tr>
-    <td>{{this.role4}}</td>
-    <td>{{this.actor4}}</td>
+    <td>{{this.data.role4}}</td>
+    <td>{{this.data.actor4}}</td>
     <td>NEW ACTOR</td>
   </tr>
   </table>
+{{#each actors}}
+  <li>{{name}}</li>
+  {{/each}}

@@ -68,8 +68,7 @@
     searchResults.forEach(movie => {
       const html = `<button 
         id="${movie.id}" class="movie" 
-        data-name="${movie.title}">
-        <a href ="/${movie.title}"></a>      
+        data-name="${movie.title}">  
           ${movie.title}
         </button>`
 
@@ -106,7 +105,11 @@
       }).then(
         function () {
           console.log("created new Movie entry");
+          window.location =`/${movTitle}`
+
           // Reload the page to get the updated list
+
+
           //location.reload();
         }
       );

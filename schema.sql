@@ -27,6 +27,9 @@ INSERT INTO movies (title, role1, role2, role3, role4, actor1, actor2, actor3, a
 CREATE TABLE actors (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(225) NOT NULL,
+  primary key (id)
 )
 
-INSERT INTO actors (name) VALUES ("Tom Cruise","Brad Pitt","Julia Roberts")
+INSERT INTO actors (name) VALUES ("Tom Cruise");
+INSERT INTO actors (name) VALUES ("Brad Pitt");
+INSERT INTO actors (name) VALUES ("Julia Roberts");

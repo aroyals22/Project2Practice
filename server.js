@@ -41,12 +41,24 @@ app.get("/", function(req, res) {
 
 
   app.get("/:title",function(req, res) {
+    var hdbObject ={};
     connection.query("SELECT * FROM movies WHERE title = ?;",
     [req.params.title], function(err, data) {
       if (err) {
+        console.log(err)
         return res.status(500).end();
       }
-      res.render("recast", { movies: data});
+      hdbObject.data =data[0];
+
+      connection.query("SELECT * FROM actors;", function(err, actors) {
+      if (err) {
+        console.log(err)
+        return res.status(500).end();
+      }
+      hdbObject.actors = actors;
+      res.render("recast",hdbObject);
+    });
+      // res.render("recast",  data[0]);
     });
   
   });
@@ -57,10 +69,11 @@ app.post("/api/movies", function(req, res){
   connection.query("INSERT INTO movies (title,role1,role2,role3,role4,actor1,actor2,actor3,actor4) VALUES (?,?,?,?,?,?,?,?,?)",
   [req.body.title,req.body.role1,req.body.role2,req.body.role3,req.body.role4,req.body.actor1,req.body.actor2,req.body.actor3,req.body.actor4],function(err, result){
     if (err){
-      return res.status(500).end();}
-      res.json({id:result.insertId});
-      console.log({id:result.insertId})
+      return res.status(500).end();
+    }
     
+    res.json({id:result.insertId});
+    console.log({id:result.insertId})
   });
 })
 
