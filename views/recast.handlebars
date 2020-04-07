@@ -11,24 +11,55 @@
   <tr>
     <td>{{this.data.role1}}</td>
     <td>{{this.data.actor1}}</td>
-    <td>NEW ACTOR</td>
+    <td>
+ <div class="form-group">
+    <label for="exampleFormControlSelect1">Example select</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+      {{#each actors}}
+  <option>{{name}}</option>
+  {{/each}}
+
+     
+    </select>
+  </div></td>
   </tr>
   <tr>
     <td>{{this.data.role2}}</td>
     <td>{{this.data.actor2}}</td>
-    <td>NEW ACTOR</td>
+    <td>
+ <div class="form-group">
+    <label for="exampleFormControlSelect1">Example select</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+      {{#each actors}}
+  <option>{{name}}</option>
+  {{/each}}
+    </select>
+  </div></td>
   </tr>
   <tr>
     <td>{{this.data.role3}}</td>
     <td>{{this.data.actor3}}</td>
-    <td>NEW ACTOR</td>
+    <td>
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Example select</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+    {{#each actors}}
+  <option>{{name}}</option>
+  {{/each}}
+    </select>
+  </div></td>
   </tr>
   <tr>
     <td>{{this.data.role4}}</td>
     <td>{{this.data.actor4}}</td>
-    <td>NEW ACTOR</td>
+    <td>
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Example select</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+     {{#each actors}}
+  <option>{{name}}</option>
+  {{/each}}
+    </select>
+  </div></td>
   </tr>
   </table>
-{{#each actors}}
-  <li>{{name}}</li>
-  {{/each}}
