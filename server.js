@@ -23,7 +23,7 @@ var connection = mysql.createConnection({
   database: "taketwo_db"
 });
 
-connection.connect(function(err) {
+connection.connect(function (err) {
   if (err) {
     console.error("error connecting: " + err.stack);
     return;
@@ -31,55 +31,72 @@ connection.connect(function(err) {
   console.log("connected as id " + connection.threadId);
 });
 
-app.get("/", function(req, res) {
-    connection.query("SELECT * FROM movies;", function(err, data) {
+app.get("/", function (req, res) {
+  connection.query("SELECT * FROM recast;", function (err, data) {
     if (err) {
       return res.status(500).end();
     }
-    res.render("index", { movies: data });
-  });});
-
-
-  app.get("/:title",function(req, res) {
-    var hdbObject ={};
-    connection.query("SELECT * FROM movies WHERE title = ?;",
-    [req.params.title], function(err, data) {
-      if (err) {
-        console.log(err)
-        return res.status(500).end();
-      }
-      hdbObject.data =data[0];
-
-      connection.query("SELECT * FROM actors;", function(err, actors) {
-      if (err) {
-        console.log(err)
-        return res.status(500).end();
-      }
-      hdbObject.actors = actors;
-      res.render("recast",hdbObject);
-    });
-      // res.render("recast",  data[0]);
-    });
-  
-  });
-  
-  
-
-app.post("/api/movies", function(req, res){
-  connection.query("INSERT INTO movies (title,role1,role2,role3,role4,actor1,actor2,actor3,actor4) VALUES (?,?,?,?,?,?,?,?,?)",
-  [req.body.title,req.body.role1,req.body.role2,req.body.role3,req.body.role4,req.body.actor1,req.body.actor2,req.body.actor3,req.body.actor4],function(err, result){
-    if (err){
-      return res.status(500).end();
-    }
+    res.render("index", { recast: data });
     
-    res.json({id:result.insertId});
-    console.log({id:result.insertId})
   });
+ 
+});
+
+app.get("/:title", function (req, res) {
+  var hdbObject = {};
+  var allNewCast = {}
+  connection.query("SELECT * FROM movies WHERE title = ?;",
+    [req.params.title], function (err, data) {
+      if (err) {
+        console.log(err)
+        return res.status(500).end();
+      }
+      hdbObject.data = data[0];
+
+      connection.query("SELECT * FROM actors;", function (err, actors) {
+        if (err) {
+          console.log(err)
+          return res.status(500).end();
+        }
+        hdbObject.actors = actors;
+        res.render("recast", hdbObject);
+      });
+
+
+
+    });
+
+});
+
+
+
+app.post("/api/movies", function (req, res) {
+  connection.query("INSERT INTO movies (title,role1,role2,role3,role4,actor1,actor2,actor3,actor4) VALUES (?,?,?,?,?,?,?,?,?)",
+    [req.body.title, req.body.role1, req.body.role2, req.body.role3, req.body.role4, req.body.actor1, req.body.actor2, req.body.actor3, req.body.actor4], function (err, result) {
+      if (err) {
+        return res.status(500).end();
+      }
+      res.json({ id: result.insertId });
+      console.log({ id: result.insertId })
+    });
+
+
 })
 
 
+app.post("/api/recast", function (req, res) {
+  connection.query("INSERT INTO recast (title,role1,role2,role3,role4,newactor1,newactor2,newactor3,newactor4) VALUES (?,?,?,?,?,?,?,?,?)",
+    [req.body.title, req.body.role1, req.body.role2, req.body.role3, req.body.role4, req.body.newactor1, req.body.newactor2, req.body.newactor3, req.body.newactor4], function (err, result) {
+      if (err) {
+        return res.status(500).end();
+      }
+      res.json({ id: result.insertId });
+      console.log({ id: result.insertId })
+      console.log("new cast has been sent")
+    })
+})
 
-  app.listen(PORT, function() {
-    // Log (server-side) when our server has started
-    console.log("Server listening on: http://localhost:" + PORT);
-  });
+app.listen(PORT, function () {
+  // Log (server-side) when our server has started
+  console.log("Server listening on: http://localhost:" + PORT);
+});

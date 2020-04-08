@@ -8,29 +8,45 @@
 
 <h2>Results</h2>
 <div id="buttons-view"></div>
-<ul>
-  <p>Current Movies Searched</p>
-  {{#each movies}}
-  <li>
-    <p><span class="label">Movie Title:</span> {{this.title}}</p>
-    <p>Cast</p>
-    <p><span class="label">First Character Role:</span> {{this.role1}}</p>
-    <p><span class="label">Played By:</span> {{this.actor1}}</p>
-    <br>
-    <p><span class="label">Second Character Role:</span> {{this.role2}}</p>
-    <p><span class="label">Played By:</span> {{this.actor2}}</p>
-    <br>
-    <p><span class="label">Third Character Role:</span> {{this.role3}}</p>
-    <p><span class="label">Played By:</span> {{this.actor3}}</p>
-    <br>
-    <p><span class="label">Fourth Character Role:</span> {{this.role4}}</p>
-    <p><span class="label">Played By:</span> {{this.actor4}}</p>
-    <br>
 
-  </li>
-  {{/each}}
-</ul>
+<br>
+<h2>Vote on previous TakeTwo recasts!</h2>
 
+{{#each recast}}
+<div class="card" style="width: 18rem;">
+  
+  <div class="card-body">
+    <h2>{{this.title}}</h2>
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Character Role</th>
+      <th scope="col">New Cast</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>      
+      <td>{{this.role1}}</td>
+      <td>{{this.newactor1}}</td>
+    </tr>
+     <tr>
+      <td>{{this.role2}}</td>
+      <td>{{this.newactor2}}</td>
+    </tr>
+    <tr>
+      <td>{{this.role3}}</td>
+      <td>{{this.newactor2}}</td>
+    </tr>
+     <tr>
+      <td>{{this.role4}}</td>
+      <td>{{this.newactor2}}</td>
+    </tr>
+   </tbody>
+</table>
+<br>
+{{/each}}
+
+   
 
 <script type="text/javascript">
   $("#movieSearch").on("submit", function (event) {

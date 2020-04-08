@@ -1,20 +1,21 @@
 <h1>Recast Movie</h1>
 
-<h1>Recast your movie</h1>
+<h1 id="title" class="formFields">{{this.data.title}}</h1>
 
 <table>
+
   <tr>
     <th>Roles</th>
     <th>Original Actor</th>
     <th>New Actor</th>
   </tr>
   <tr>
-    <td>{{this.data.role1}}</td>
+    <td id="role1" class ="formFields">{{this.data.role1}}</td>
     <td>{{this.data.actor1}}</td>
     <td>
  <div class="form-group">
     <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control" id="exampleFormControlSelect1">
+    <select id="newactor1" class="form-control formFields">
       {{#each actors}}
   <option>{{name}}</option>
   {{/each}}
@@ -24,12 +25,12 @@
   </div></td>
   </tr>
   <tr>
-    <td>{{this.data.role2}}</td>
+    <td id="role2" class ="formFields">{{this.data.role2}}</td>
     <td>{{this.data.actor2}}</td>
     <td>
  <div class="form-group">
     <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control" id="exampleFormControlSelect1">
+    <select id="newactor2" class="form-control formFields">
       {{#each actors}}
   <option>{{name}}</option>
   {{/each}}
@@ -37,12 +38,12 @@
   </div></td>
   </tr>
   <tr>
-    <td>{{this.data.role3}}</td>
+    <td id="role3" class ="formFields">{{this.data.role3}}</td>
     <td>{{this.data.actor3}}</td>
     <td>
   <div class="form-group">
     <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control" id="exampleFormControlSelect1">
+    <select id="newactor3" class="form-control formFields">
     {{#each actors}}
   <option>{{name}}</option>
   {{/each}}
@@ -50,16 +51,42 @@
   </div></td>
   </tr>
   <tr>
-    <td>{{this.data.role4}}</td>
+    <td id="role4" class ="formFields">{{this.data.role4}}</td>
     <td>{{this.data.actor4}}</td>
     <td>
   <div class="form-group">
     <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control" id="exampleFormControlSelect1">
+    <select id="newactor4" class="form-control formFields">
      {{#each actors}}
   <option>{{name}}</option>
   {{/each}}
     </select>
   </div></td>
   </tr>
+  <button id = "recast">submit recast</button>
   </table>
+
+
+
+
+
+
+<script type="text/javascript">
+ 
+  $(document).on("click", "#recast", function (event) {
+    event.preventDefault();
+    var recast = {};
+    $(".formFields").each( (key, elem) => recast[elem.id] = elem.value || elem.innerHTML)
+     console.log(recast);
+     $.ajax("/api/recast", {
+        type: "POST",
+      data: recast
+     }).then(
+        function () {
+          console.log("created new Movie entry");
+         window.location ="/"
+        });
+
+    
+  });
+  </script>

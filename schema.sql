@@ -33,3 +33,18 @@ CREATE TABLE actors (
 INSERT INTO actors (name) VALUES ("Tom Cruise");
 INSERT INTO actors (name) VALUES ("Brad Pitt");
 INSERT INTO actors (name) VALUES ("Julia Roberts");
+
+CREATE TABLE recast (
+  id int NOT NULL AUTO_INCREMENT,
+  title varchar(255) NOT NULL,
+  role1 varchar(255) NOT NULL,
+  role2 varchar(255) NOT NULL,
+  role3 varchar(255) NOT NULL,
+  role4 varchar(255) NOT NULL,
+  newactor1 varchar(255) NOT NULL,
+  newactor2 varchar(255) NOT NULL,
+  newactor3 varchar(255) NOT NULL,
+  newactor4 varchar(255) NOT NULL,
+  PRIMARY KEY (id)
+
+)
